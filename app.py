@@ -19,14 +19,14 @@ start_scheduler()
 @app.route("/schedule", methods=["POST"])
 def schedule_blog():
     schedule_type = request.form["schedule"]
-    topic = request.form.get("topic", "")
 
-    print(f"/schedule called with schedule={schedule_type}, topic={topic}")
+    print(f"/schedule called with schedule={schedule_type}")
 
     def run_job():
-        print(f"Scheduled job running for topic: {topic}")
+        print(f"Scheduled job running - fetching trends automatically")
         try:
-            result = graph.invoke({"topic": topic})
+            # Pass empty dict so graph.trend_node will fetch trends from RSS
+            result = graph.invoke({})
             print(f"Scheduled job result: {result}")
         except Exception as e:
             print(f"ERROR in scheduled job: {type(e).__name__}: {e}")
