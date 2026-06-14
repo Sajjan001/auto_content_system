@@ -8,7 +8,6 @@ from database.db import (
 )
 
 from graph import graph
-
 from scheduler import start_scheduler, scheduler
 
 app = Flask(__name__)
@@ -18,15 +17,16 @@ init_db()
 start_scheduler()
 @app.route("/schedule", methods=["POST"])
 def schedule_blog():
-
     schedule_type = request.form["schedule"]
     topic = request.form.get("topic", "")
 
+    print(f"/schedule called with schedule={schedule_type}, topic={topic}")
+
     def run_job():
+        print(f"Scheduled job running for topic: {topic}")
         graph.invoke({"topic": topic})
 
     if schedule_type == "10sec":
-
         scheduler.add_job(
             run_job,
             "interval",
@@ -36,7 +36,6 @@ def schedule_blog():
         )
 
     elif schedule_type == "1min":
-
         scheduler.add_job(
             run_job,
             "interval",
@@ -46,7 +45,6 @@ def schedule_blog():
         )
 
     elif schedule_type == "daily2pm":
-
         scheduler.add_job(
             run_job,
             "cron",
@@ -58,6 +56,7 @@ def schedule_blog():
 
     global automation_active
     automation_active = True
+    print("Automation scheduled and activated")
     return redirect(url_for("home"))
 
 
@@ -75,6 +74,7 @@ def home():
 def revoke_automation():
     global automation_active
     if scheduler.get_job("blog_job"):
+        print("Removing scheduled job blog_job")
         scheduler.remove_job("blog_job")
     automation_active = False
     return redirect(url_for("home"))
