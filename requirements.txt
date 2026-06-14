@@ -1,0 +1,10 @@
+flask
+langgraph
+langchain
+langchain-groq
+feedparser
+python-dotenv
+markdown
+requests
+gunicorn
+apscheduler
