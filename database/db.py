@@ -27,24 +27,30 @@ def init_db():
 
 
 def save_blog(title, topic, content, image=""):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT id FROM blogs WHERE title = ?", (title,))
-    if cursor.fetchone():
+        cursor.execute("SELECT id FROM blogs WHERE title = ?", (title,))
+        if cursor.fetchone():
+            conn.close()
+            print(f"[DB] Duplicate blocked (title already exists): {title}")
+            return False
+
+        cursor.execute("""
+        INSERT INTO blogs(title, topic, content, image)
+        VALUES(?,?,?,?)
+        """, (title, topic, content, image))
+
+        conn.commit()
         conn.close()
-        print(f"Duplicate blocked: {title}")
+        print(f"[DB] Blog saved successfully: {title}")
+        return True
+    except Exception as e:
+        print(f"[DB] ERROR in save_blog: {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
         return False
-
-    cursor.execute("""
-    INSERT INTO blogs(title, topic, content, image)
-    VALUES(?,?,?,?)
-    """, (title, topic, content, image))
-
-    conn.commit()
-    conn.close()
-    print(f"Blog saved: {title}")
-    return True
 
 
 def get_all_blogs():

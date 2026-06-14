@@ -25,7 +25,13 @@ def schedule_blog():
 
     def run_job():
         print(f"Scheduled job running for topic: {topic}")
-        graph.invoke({"topic": topic})
+        try:
+            result = graph.invoke({"topic": topic})
+            print(f"Scheduled job result: {result}")
+        except Exception as e:
+            print(f"ERROR in scheduled job: {type(e).__name__}: {e}")
+            import traceback
+            traceback.print_exc()
 
     if schedule_type == "10sec":
         scheduler.add_job(
