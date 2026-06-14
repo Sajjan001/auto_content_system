@@ -9,6 +9,7 @@ from database.db import (
 
 from graph import graph
 from scheduler import start_scheduler, scheduler
+import threading
 
 app = Flask(__name__)
 automation_active = False
@@ -35,6 +36,9 @@ def schedule_blog():
             replace_existing=True
         )
 
+        # Run once immediately in background to verify scheduling works
+        threading.Thread(target=run_job, daemon=True).start()
+
     elif schedule_type == "1min":
         scheduler.add_job(
             run_job,
@@ -43,6 +47,9 @@ def schedule_blog():
             id="blog_job",
             replace_existing=True
         )
+
+        # Run once immediately in background to verify scheduling works
+        threading.Thread(target=run_job, daemon=True).start()
 
     elif schedule_type == "daily2pm":
         scheduler.add_job(
@@ -53,6 +60,9 @@ def schedule_blog():
             id="blog_job",
             replace_existing=True
         )
+
+        # Run once immediately in background to verify scheduling works
+        threading.Thread(target=run_job, daemon=True).start()
 
     global automation_active
     automation_active = True
