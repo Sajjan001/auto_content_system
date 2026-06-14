@@ -16,7 +16,7 @@ class BlogState(TypedDict):
 
 def trend_node(state):
 
-    print(f"\n=== TREND NODE ===")
+    print(f" TREND NODE ")
     print(f"State: {state}")
     
     if state.get("topic"):
@@ -30,7 +30,7 @@ def trend_node(state):
 
 def generate_node(state):
 
-    print(f"\n=== GENERATE NODE ===")
+    print(f"\n GENERATE NODE ")
     print(f"State topic: {state.get('topic', 'NO TOPIC')}")
     
     blog = generate_blog(state["topic"])
@@ -38,7 +38,7 @@ def generate_node(state):
 
     print(f"Blog title: {blog.get('title', 'Unknown')}")
     print(f"Image URL: {image}")
-    print(f"=== END GENERATE NODE ===\n")
+    print(f" END GENERATE NODE \n")
 
     return {
         "topic": state["topic"],
