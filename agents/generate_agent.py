@@ -4,8 +4,6 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-# Ensure the GROQ API key is available at runtime. On Render set this in
-# Environment → Environment Variables, or provide a local .env (do NOT commit).
 groq_key = os.getenv("GROQ_API_KEY")
 if not groq_key:
     raise RuntimeError(
