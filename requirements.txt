@@ -8,3 +8,4 @@ markdown
 requests
 gunicorn
 apscheduler
+psycopg2-binary
