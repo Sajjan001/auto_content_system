@@ -2,9 +2,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from graph import graph
 
 def run_job():
-    print("=== Running Scheduled Job ===")
+    print("Running Scheduled Job")
     graph.invoke({})
-    print("=== Blog Published ===")
+    print("Blog Published")
 
 scheduler = BackgroundScheduler()
 
@@ -15,5 +15,5 @@ scheduler.add_job(
 )
 
 def start_scheduler():
-    print("=== Scheduler Started ===")
+    print("Scheduler Started")
     scheduler.start()
