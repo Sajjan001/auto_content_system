@@ -8,4 +8,5 @@ def search_image(topic):
         if w not in STOP_WORDS and len(w) >= 2
     ]
     tags = ",".join(keywords[:3]) or "technology"
-    return f"https://loremflickr.com/800/400/{tags}?random={int(time.time())}"
+    # Using picsum.photos (alternative to loremflickr)
+    return f"https://picsum.photos/800/400?random={int(time.time())}"

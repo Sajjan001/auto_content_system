@@ -19,10 +19,15 @@ SCHEDULES = {
 }
 
 def run_job():
-    try:
-        graph.invoke({})
-    except Exception as e:
-        print(f"Job error: {e}")
+    print("\n" + "="*60)
+    print("🚀 STARTING CONTENT GENERATION")
+    print("="*60)
+    result = graph.invoke({})
+    print(f"✓ Job completed for topic: {result.get('topic', 'Unknown')}")
+    print(f"✓ Title: {result.get('blog', {}).get('title', 'N/A')}")
+    print(f"✓ Image: {result.get('image', 'N/A')}")
+    print("="*60 + "\n")
+    return result
 
 
 @app.route("/")
@@ -51,7 +56,12 @@ def revoke_automation():
 
 @app.route("/generate")
 def generate():
+    print("\n" + "="*60)
+    print("📝 MANUAL GENERATION REQUEST")
+    print("="*60)
     result = graph.invoke({})
+    print(f"✓ Generated: {result.get('topic')}")
+    print("="*60 + "\n")
     return render_template("success.html", blog=result.get("blog", {}),
                            topic=result.get("topic", "N/A"), image=result.get("image", ""))
 
@@ -59,6 +69,10 @@ def generate():
 @app.route("/article/<int:blog_id>")
 def article(blog_id):
     blog = get_blog(blog_id)
+    if not blog:
+        print(f"❌ Blog ID {blog_id} not found")
+        return "Blog not found", 404
+    print(f"✓ Retrieved blog: {blog[1]}")
     return render_template("published.html", blog=blog,
                            html_content=markdown.markdown(blog[3]) if blog else "")
 
